@@ -88,6 +88,7 @@
 				<th>DeviceID</th>
 				<th>Load Current(RMS)</th>
 				<th>Apparent Power</th>
+				<th>Temperature</th>
 				</tr>
 				<?php
 				$tabval = '';
@@ -98,6 +99,7 @@
 												<td>'.$result[$i]['DeviceID'].'</td>
 												<td>'.$result[$i]['Irms'].'</td>
 												<td>'.$result[$i]['AppPower'].'</td>
+												<td>'.$result[$i]['temperature'].'</td>
 											</tr>
 												';
 				}
