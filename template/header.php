@@ -25,7 +25,7 @@ else exit;
 		<link rel="stylesheet" href="<?php echo CSSDIR;?>/autocomplete.css">
 		<link rel="stylesheet" href="<?php echo CSSDIR;?>/site.css?version=1.0.7">
 		<script src="<?php echo JSDIR;?>/autocomplete.js"></script>
-		<title> MGA Voucher Application</title>
+		<title>Smarthome Application</title>
 		<script src="<?php echo JSDIR;?>/site.js?version=0.1.5"></script>
 	</head>
 
