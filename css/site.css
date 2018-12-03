@@ -1,0 +1,270 @@
+
+body{
+	font-size:8px;
+    height:100vh;
+}
+.hide {display:none;}
+p.logo{
+    margin-top:0;
+    letter-spacing:-1px;
+    font-family: Arial Narrow,Arial,sans-serif;
+    font-size: 24px;
+}
+p.address{
+    margin-top:1px;
+    font-family: Arial Narrow,Arial,sans-serif;
+    font-size: 18px;
+}
+p.contact{
+    margin-top:0px;
+    font-family: Arial Narrow,Arial,sans-serif;
+    font-size: 20px;
+}
+a.viewmode{
+    text-decoration:none;
+}
+a.viewmode.active{
+    pointer-events: none;
+    color: #cddc39;
+    outline: none;
+}
+.nodec{
+    text-decoration:none;
+    outline: none;
+}
+.dot {
+    height: 12px;
+    width: 12px;
+		line-height:12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.dot-large {
+    height: 30px;
+    width: 30px;
+	line-height:30px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.nodec:hover{color:#9fd142;}
+.dayreport{
+    max-height:25vh;
+    max-width:33vh;
+    overflow:auto;
+}
+.drfullheight{
+    max-height:90vh;
+    max-width:33vh;
+    overflow:auto;
+}
+.summaryreport{
+    max-height:15vh;
+    max-width:33vh;
+    overflow:auto;
+}
+.entryreport{
+    max-height: 95vh;
+    overflow: auto;
+}
+
+ /* The snackbar - position it at the bottom and in the middle of the screen */
+#snackbar {
+    visibility: hidden; /* Hidden by default. Visible on click */
+    min-width: 250px; /* Set a default minimum width */
+    margin-left: -125px; /* Divide value of min-width by 2 */
+    background-color: rgba(255,0,0,0.7); /* Black background color */
+    color: #fff; /* White text color */
+    font-size: 12px;
+    text-align: center; /* Centered text */
+    border-radius: 5px; /* Rounded borders */
+    padding: 16px; /* Padding */
+    position: fixed; /* Sit on top of the screen */
+    z-index: 1; /* Add a z-index if needed */
+    left: 50%; /* Center the snackbar */
+    bottom: 30px; /* 30px from the bottom */
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+#snackbar.show {
+    visibility: visible; /* Show the snackbar */
+
+/* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+However, delay the fade out process for 2.5 seconds */
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 9.5s;
+    animation: fadein 0.5s, fadeout 0.5s 9.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+.report-selector{
+    height:auto;
+    width:300px;
+    left:18px;
+    top:-300px;
+    position:absolute;
+    background:#fff;
+    border:1px solid #999;
+    transition: 0.3s;
+    z-index: 10;
+}
+
+.report-selector-toggle {
+    background-color: #eee;
+    border: none;
+    padding: 1px 1px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 8px;
+    cursor: pointer;
+    width:100%;
+}
+.payday{
+    right:15px;
+    top:-20px;
+    padding:5px;
+    position:absolute;
+    width:300px;
+    background:#fff;
+    display:none;
+    border-radius:5px;
+    border:1px solid rgba(0,0,0,0.4);
+}
+
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+
+* For Firefox */
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+
+/* Webkit browsers like Safari and Chrome */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.pagetitle {
+    text-align:left;
+    padding-left: 2px;
+    padding-top: 2px;
+		height:20px;
+}
+.monthreportsearch { text-align:right; }
+
+@media only screen and (max-width: 400px) {
+  .usertable-big  {display: none;}
+}
+@media screen and (min-width: 0px) and (max-width: 400px) {
+  .usertable-small { display: block; }  /* show it on small screens */
+}
+@media screen and (min-width: 401px) {
+  .usertable-small { display: none; }  /*hide on big screens */
+}
+@media only screen and (max-width: 600px) {
+  .monthreportsearch {
+      text-align:center;
+      background: #555;
+    }
+  .pagetitle {
+      text-align:center;
+      background: #444;
+      padding-left: 0px;
+			padding-top: 0px;
+			height:auto;
+    }
+}
+.darkmenu{
+	background-color:rgba(0,0,0,0.4);
+	height:21px;
+	padding-top:2px;
+	position:relative;
+}
+.darkermenu{
+	background-color:rgba(0,0,0,0.6);
+	height:21px;
+	padding-top:2px;
+	position:relative;
+}
+.darkestmenu{
+	background-color:rgba(0,0,0,0.8);
+	height:21px;
+	padding-top:2px;
+	position:relative;
+}
+
+.form-group {
+  position:relative;
+  margin-top: 16px;
+	box-shadow: 0 1px 0 0 #e5e5e5;
+}
+.form-group-erred {
+	position:relative;
+	margin-top: 16px;
+	-webkit-animation-name: example; /* Safari 4.0 - 8.0 */
+	-webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
+	animation-name: error;
+	animation-duration: 3s;
+	box-shadow: 0 1px 0 0 #e5e5e5;
+}
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes error {
+    from {box-shadow: 0 1px 0 0 #ff0000;}
+    to {box-shadow: 0 1px 0 0 #e5e5e5;}
+}
+
+/* Standard syntax */
+@keyframes error {
+    from {box-shadow: 0 1px 0 0 #ff0000;}
+    to {box-shadow: 0 1px 0 0 #e5e5e5;}
+}
+
+
+.form-label {
+  position: absolute;
+  left: 16px;
+  top: 10px;
+  color: #999;
+  background-color: #fff;
+  z-index: 2;
+  transition: transform 150ms ease-out, font-size 150ms ease-out;
+}
+
+.focused .form-label {
+  transform: translateY(-125%);
+  font-size: .75em;
+}
+
+.form-input {
+  position: relative;
+  padding: 12px 0px 5px 16px;
+  width: 100%;
+  outline: 0;
+  border: 0;
+  transition: box-shadow 150ms ease-out;
+}
+
+.form-input.filled {
+  box-shadow: 0 2px 0 0 lightgreen;
+}
