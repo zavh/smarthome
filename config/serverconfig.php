@@ -1,7 +1,7 @@
 <?php
 define("WEBSERVER", "http://localhost:8080");
 define("MAINHOST", "http://localhost:8080/emapp");
-define("MAINPATH","/opt/lampp/htdocs/emapp");
+define("MAINPATH","/var/www/html/emapp");
 define("TIMEZONE","Asia/Dhaka");
 define("CLASSDIR",MAINPATH."/classes");
 define("UTILSDIR",MAINPATH."/utils");
