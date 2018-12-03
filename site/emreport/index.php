@@ -99,7 +99,7 @@
 												<td>'.$result[$i]['DeviceID'].'</td>
 												<td>'.$result[$i]['Irms'].'</td>
 												<td>'.$result[$i]['AppPower'].'</td>
-												<td>'.$result[$i]['temperature'].'</td>
+												<td>'.$result[$i]['Temperature'].'</td>
 											</tr>
 												';
 				}
