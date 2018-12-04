@@ -122,7 +122,7 @@ function validatePageId(e, el){
 				page['rpp'] = <?php echo PAGINATIONRPP; ?>;
 				page['page_index'] = 1;
 				page['num_pages'] = Math.ceil(page['records']/page['rpp']);
-				page['target_date'] = <?php echo date("Y-d-m"); ?>
+				page['target_date'] ='<?php echo date("Y-d-m"); ?>';
 		 	reportAjaxFunction('showReport', JSON.stringify(page), 'data-table-container');
 		 </script>
 	 </div>
