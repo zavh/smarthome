@@ -3,7 +3,7 @@ if(!isset($_SERVER['HTTP_REFERER']) && ((count(get_included_files()) ==1))){
 		header ('Location:index.php');
 }
 else if(isset($_SERVER['HTTP_REFERER']) && ((count(get_included_files()) ==1))){
-	require_once($_SERVER['DOCUMENT_ROOT']."/emapp/config/serverconfig.php");
+	require_once("../../config/serverconfig.php");
 	require_once(UTILSDIR."/essentials_open.php");
 }
 //else {

@@ -1,3 +1,88 @@
+<script>
+function reportAjaxFunction(instruction, execute_id, divid){
+	var ajaxRequest;  // The variable that makes Ajax possible!
+		try{
+				ajaxRequest = new XMLHttpRequest();
+		} catch (e){
+				try{
+						ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+				} catch (e) {
+						try{
+								ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+						} catch (e){
+								alert("Your browser broke!");
+								return false;
+						}
+				}
+		}
+		ajaxRequest.onreadystatechange = function(){
+				if(ajaxRequest.readyState == 4 && ajaxRequest.status == 200){
+					if(instruction=="changelevel"){
+						document.getElementById("errmsg").value = ajaxRequest.responseText;
+						msgInASnackbar();
+						var status = ajaxRequest.responseText.split("|");
+						if(parseInt(status[1])<100){
+							document.getElementById(config[2]).value = document.getElementById("orig-"+config[2]).value;
+							return;
+						}
+						else userAjaxFunction('refreshList', '', 'userlist');
+					}
+					if(instruction=="showReport"){
+
+					}
+						if(divid!=''){
+							var ajaxDisplay = document.getElementById(divid);
+							ajaxDisplay.innerHTML = ajaxRequest.responseText;
+						}
+				}
+			}
+
+			if(instruction == "showReport"){
+				ajaxRequest.open("POST", "em_report.php", true);
+				ajaxRequest.setRequestHeader("Content-type", "application/json");
+				ajaxRequest.send(execute_id);
+			}
+}
+
+function validateRPP(e, el){
+	if(e.keyCode == 13){
+		if(isNaN(el.value) || el.value == '' || el.value < 1){
+			el.value = page['rpp'];
+			return;
+		}
+		else {
+			page['rpp'] = el.value;
+			page['page_index'] = 1;
+			page['num_pages'] = Math.ceil(page['records']/page['rpp']);
+			reportAjaxFunction('showReport', JSON.stringify(page), 'data-table-container');
+			document.getElementById('page_index').value = 1;
+		}
+	}
+}
+function validatePageId(e, el){
+	var rpp = document.getElementById('rpp');
+	if(e.keyCode == 13){
+		if(isNaN(el.value) || el.value == "" || el.value < 1){
+			el.value = page['page_index'];
+			return;
+		}
+		else if(isNaN(rpp.value) || rpp.value == ''){
+			rpp.value = page['rpp'];
+		}
+		if(el.value > page['num_pages']){
+			el.value = page['num_pages'];
+		}
+			page['rpp'] = rpp.value;
+			page['page_index'] = el.value;
+			page['num_pages'] = Math.ceil(page['records']/page['rpp']);
+			reportAjaxFunction('showReport', JSON.stringify(page), 'data-table-container');
+		}
+	}
+	function trimInputs(el){
+		el.value = el.value.trim();
+	}
+</script>
+
 <?php
 	include($_SERVER['DOCUMENT_ROOT']."/emapp/config/serverconfig.php");
 	include(TEMPLATEDIR."/header.php");
@@ -13,102 +98,47 @@
 		$_SESSION['dailyreportdate'] = $reportdate;
 	}
 ?>
-<style>
-.entryAction{
-}
-.summaryTable{
-	width:100%;
-	//border-collapse: collapse;
-	background-color: #eee;
-}
-.summaryTable tr th{
-	border-top: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
-	text-align:left;
-	background-color: #ddd;
-	font-size: 10px;
-}
-.summaryTable tr.card{
-	border-top: 1px solid #aaa;
-	border-bottom: 1px solid #aaa;
-	color: rgba(10,129,20,1);
-	vertical-align: middle;
-}
-.summaryTable tr.cardDetailsShow{
-	color: rgba(0,0,0,0.8);
-}
-.summaryTable tr.corpDetailsShow{
-	border-top: 1px solid #aaa;
-	border-bottom: 1px solid #aaa;
-	color: rgba(129,20,20,0.9);
-}
-.summaryTable tr.cardMonthDetailsShow{
-	border-top: 1px solid #aaa;
-	border-bottom: 1px solid #aaa;
-	color: rgba(20,170,50,0.9);
-}
-.summaryTable tr.corpMonthDetailsShow{
-	border-top: 1px solid #aaa;
-	border-bottom: 1px solid #aaa;
-	color: rgba(89,70,250,0.8);
-}
-@media print {
-	#dayreportmenu {
-      display :  none;
-    }
-	.entryAction{
-		display :  none;
-	}
-	.entryreport{
-		max-height:none;
-	}
-}
-</style>
-	<!-- Page background or Page Wrapper -->
-	<div class="w3-gray w3-row" style="min-height:100vh;height:100%">
+
+<div class="w3-gray w3-row" style="min-height:100vh;height:100%">
 	 <!-- Top Panel Starts-->
 	 <?php
 	 	$pagetitle = "Performance Dashboard";
 		$menuid = "dayreportmenu";
 
-		// $menuitems[0]['classes']  = "w3-small w3-center darkmenu";
-	 	// $menuitems[0]['details']  = "<a href=\"javascript:void(0)\" ";
-	 	// $menuitems[0]['details'] .= "onclick=\"document.getElementById('newbill').style.display='block'\" class=\"nodec\">New Bill/Request</a>";
-
+		 //$menuitems[0]['classes']  = "w3-small w3-center darkmenu";
+	 	 //$menuitems[0]['details']  = "Total Number of records";
 	 	include(TEMPLATEDIR."/topmenu.php");
-		$report = new DbTables($con, 'emdata');
-		$query = "SELECT * FROM emdata ORDER BY id DESC";
-		$result = $report->getSqlResult($query);
-	 ?>
-	 <div class="w3-container w3-margin-top">
-		 <table class='w3-table-all w3-hoverable w3-card'>
-				<tr class='w3-light-blue'>
-				<th>ID</th>
-				<th>GMT Time</th>
-				<th>DeviceID</th>
-				<th>Load Current(RMS)</th>
-				<th>Apparent Power</th>
-				<th>Temperature</th>
-				</tr>
-				<?php
-				$tabval = '';
-				for($i=0;$i<count($result);$i++){
-					$tabval .= '<tr>
-												<td>'.$result[$i]['id'].'</td>
-												<td>'.$result[$i]['event'].'</td>
-												<td>'.$result[$i]['DeviceID'].'</td>
-												<td>'.$result[$i]['Irms'].'</td>
-												<td>'.$result[$i]['AppPower'].'</td>
-												<td>'.$result[$i]['Temperature'].'</td>
-											</tr>
-												';
-				}
-				echo $tabval;
-				?>
-			</table>
-	 </div>
 
+		$report = new DbTables($con, 'emdata');
+	  $query = "SELECT COUNT(id) as records FROM emdata";
+	  $result = $report->getSqlResult($query);
+	  $page['records'] = $result[0]['records'];
+	 ?>
+
+	 <div class="w3-container w3-margin-top" id='data-table-container'>
+		 <script type="text/javascript" defer>
+		 		var page = {};
+		 		page['records'] = <?php echo $page['records']; ?>;
+				page['rpp'] = <?php echo PAGINATIONRPP; ?>;
+				page['page_index'] = 1;
+				page['num_pages'] = Math.ceil(page['records']/page['rpp']);
+				page['target_date'] = <?php echo date("Y-d-m"); ?>
+		 	reportAjaxFunction('showReport', JSON.stringify(page), 'data-table-container');
+		 </script>
 	 </div>
+	 <div class="w3-center w3-row">
+		 <div class='w3-col m6 s6 w3-round'>
+			 <div class="w3-margin w3-padding w3-card w3-round w3-light-grey">
+			 	Records per page: <input type="number" name="rpp" value="<?php echo PAGINATIONRPP; ?>" size=3 id='rpp' onkeypress="validateRPP(event, this)" onkeyup="trimInputs(this)" autocomplete="off">
+			 </div>
+		 </div>
+		 <div class='w3-col m6 s6'>
+			 <div class="w3-margin w3-padding w3-card  w3-round w3-light-grey">
+				Go to page: <input type="number" name="page_index" value="1" size=3 id='page_index' onkeypress="validatePageId(event, this)" onkeyup="trimInputs(this)" autocomplete="off">
+			 </div>
+		 </div>
+	 </div>
+</div>
 <?php
 	include(TEMPLATEDIR."/footer.php");
 ?>

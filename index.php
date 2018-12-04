@@ -5,7 +5,7 @@ session_start();
 if(isset($_SESSION)){
 	if(isset($_SESSION['loggedin']))
 		if($_SESSION['loggedin'])
-			header ('Location:'.MAINHOST."/site/dailyreport/");
+			header ('Location:'.MAINHOST."/site/emreport/");
 }
 ?>
 <html>

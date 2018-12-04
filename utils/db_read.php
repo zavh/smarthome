@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
 $username = "emapp";
-$password = "@lpha7EMAPP1";
+$password = "alpha7Sigma1";
 $dbname = "emapp";
 
 // Create connection
