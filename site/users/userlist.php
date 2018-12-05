@@ -22,7 +22,7 @@ $userTab = "<table class='w3-table w3-striped w3-tiny'>
 				</tr>";
 
 for($i=0;$i<count($users);$i++){
-	//if($users[$i]['table_id'] == $_SESSION['table_id']) continue;
+
 	$userTab .= "<tr>
 					<td>".$users[$i]['uid']."</td>
 					<td>
@@ -42,5 +42,5 @@ for($i=0;$i<count($users);$i++){
 				</tr>";
 			}
 $userTab .= "</table>";
-//echo "<div class='usertable-big'>".$userTab."</div>";
+echo "<div class='usertable-big'>".$userTab."</div>";
 ?>

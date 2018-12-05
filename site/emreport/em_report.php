@@ -15,14 +15,19 @@ else if(isset($_SERVER['HTTP_REFERER']) && ((count(get_included_files()) ==1))){
   if($upper > $pagedata['records'])
   $upper = $pagedata['records'];
   $report = new DbTables($con, 'emdata');
-  $query = "SELECT * FROM emdata ORDER BY id DESC LIMIT $limit OFFSET $offset";
+  $dateUpper = $pagedata['target_date']." 23:59:59";
+  $dateLower = $pagedata['target_date']." 00:00:00";
+  $query = "SELECT * FROM emdata WHERE event BETWEEN '$dateLower' AND '$dateUpper' ORDER BY id DESC LIMIT $limit OFFSET $offset";
+
   $result = $report->getSqlResult($query);
 }
  ?>
-<table class='w3-table-all w3-hoverable w3-card' style="border:none;font-size:9px;font-family:Arial, Helvetica, sans-serif">
+<table class='w3-table-all w3-hoverable' style="border:none;font-size:9px;font-family:Arial, Helvetica, sans-serif;">
    <tr class='w3-light-blue'>
    <th class='w3-center'>ID</th>
-   <th class='w3-center'><input type="date" name="" value="<?php echo date("Y-d-m"); ?>"></th>
+   <th class='w3-center'>
+       <input type="date" name="report_date" value="<?php echo $pagedata['target_date'];?>" onkeydown="validateDate(event, this)">
+   </th>
    <th class='w3-center'>DeviceID</th>
    <th class='w3-center'>Load Current(RMS)</th>
    <th class='w3-center'>Apparent Power</th>

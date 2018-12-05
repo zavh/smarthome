@@ -1,5 +1,5 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT']."/emapp/config/serverconfig.php");
+	include("../../config/serverconfig.php");
 	include(TEMPLATEDIR."/header.php");
 	include(TEMPLATEDIR."/mainmenu.php");
 ?>
@@ -199,7 +199,7 @@
 	include(TEMPLATEDIR."/footer.php");
 ?>
 <script src="<?php echo JSDIR;?>/snackbar.js?version=1.0"></script>
-<script src="<?php echo JSDIR;?>/users.js?version=1.6"></script>
+<script src="<?php echo JSDIR;?>/users.js?version=0.1"></script>
 <style>
 /* Style all input fields */
 

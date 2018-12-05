@@ -11,18 +11,14 @@ function upActivityCounter(){
     var d = new Date();
     document.getElementById("lastActiveTime").value=d.getTime();
 }
-//var myVar = setInterval(checkActivity, 300000);
+var myVar = setInterval(checkActivity, 300000);
 
 function checkActivity(){
     var lastActivity = document.getElementById("lastActiveTime").value;
     var d = new Date();
     var nowTimeStamp = d.getTime();
     var diff = nowTimeStamp - lastActivity;
-    if(diff>600000){
-        if (typeof iam !== 'undefined') {
-            window.close();
-        }
-    }
+
     if(diff>900000){
         window.location.assign("http://localhost:8080/emapp/logout.php")}
     console.log(lastActivity+" - "+nowTimeStamp+" And difference is "+diff);

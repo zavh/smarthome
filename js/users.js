@@ -19,11 +19,12 @@ function hideMsgDiv(divid){
 }
 
 function deleteUser(table_id, user_name){
-	var r = confirm("Confirm deletion of user "+user_name);
-	if (r == true) {
+
+	// var r = confirm("Confirm deletion of user "+user_name);
+	// if (r == true) {
 		userAjaxFunction('deleteuser', table_id, 'userlist');
-	}
-	else return;
+	//}
+	//else return;
 }
 
 function changeLevel(input, originput, table_id, e){

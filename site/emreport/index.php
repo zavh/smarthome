@@ -81,6 +81,23 @@ function validatePageId(e, el){
 	function trimInputs(el){
 		el.value = el.value.trim();
 	}
+	function validateDate(e, el){
+		if(e.keyCode == 13){
+			var x = new Date(el.value);
+			y = x.getDate();
+			if(isNaN(y)){
+				 z = new Date(Date.now());
+				 el.value = z.getFullYear()+"-"+z.getMonth()+"-"+z.getDate();
+			}
+			else{
+				document.getElementById('report_date').value=el.value;
+				var f = document.getElementById('hiddenParamsForm');
+				f.submit();
+				console.log(document.getElementById('hiddenParamsForm'));
+			}
+		}
+	}
+
 </script>
 
 <?php
@@ -88,15 +105,13 @@ function validatePageId(e, el){
 	include(TEMPLATEDIR."/header.php");
 	include(TEMPLATEDIR."/mainmenu.php");
 
-	//Setting the default report date
-	if(!isset($_SESSION['dailyreportdate'])){
-		$_SESSION['dailyreportdate'] = date("Y-m-d");
-	}
-	$reportdate = $_SESSION['dailyreportdate']; //Report date is the default unless other date is posted
-	if(isset($_POST['reportdate'])){ //POSTed date found, default and reportdate both will be changed
-		$reportdate = $_POST['reportdate'];
-		$_SESSION['dailyreportdate'] = $reportdate;
-	}
+	if(isset($_POST['report_date']))
+		$report_date = $_POST['report_date'];
+	else
+		$report_date = date("Y-m-d");
+
+		$dateUpper = "$report_date 23:59:59";
+		$dateLower = "$report_date 00:00:00";
 ?>
 
 <div class="w3-gray w3-row" style="min-height:100vh;height:100%">
@@ -110,21 +125,24 @@ function validatePageId(e, el){
 	 	include(TEMPLATEDIR."/topmenu.php");
 
 		$report = new DbTables($con, 'emdata');
-	  $query = "SELECT COUNT(id) as records FROM emdata";
+
+	  $query = "SELECT COUNT(id) as records FROM emdata WHERE event BETWEEN '$dateLower' AND '$dateUpper'";
 	  $result = $report->getSqlResult($query);
 	  $page['records'] = $result[0]['records'];
 	 ?>
 
-	 <div class="w3-container w3-margin-top" id='data-table-container'>
-		 <script type="text/javascript" defer>
-		 		var page = {};
-		 		page['records'] = <?php echo $page['records']; ?>;
-				page['rpp'] = <?php echo PAGINATIONRPP; ?>;
-				page['page_index'] = 1;
-				page['num_pages'] = Math.ceil(page['records']/page['rpp']);
-				page['target_date'] ='<?php echo date("Y-d-m"); ?>';
-		 	reportAjaxFunction('showReport', JSON.stringify(page), 'data-table-container');
-		 </script>
+	 <div class="w3-container w3-margin-top">
+		<div class="w3-card" id='data-table-container' style='max-height:80vh;overflow:auto'>
+				 <script type="text/javascript" defer>
+				 		var page = {};
+				 		page['records'] = <?php echo $page['records']; ?>;
+						page['rpp'] = <?php echo PAGINATIONRPP; ?>;
+						page['page_index'] = 1;
+						page['num_pages'] = Math.ceil(page['records']/page['rpp']);
+						page['target_date'] ='<?php echo $report_date; ?>';
+				 	reportAjaxFunction('showReport', JSON.stringify(page), 'data-table-container');
+				 </script>
+		</div>
 	 </div>
 	 <div class="w3-center w3-row">
 		 <div class='w3-col m6 s6 w3-round'>
@@ -138,6 +156,11 @@ function validatePageId(e, el){
 			 </div>
 		 </div>
 	 </div>
+	 <form id="hiddenParamsForm" name="hiddenParamsForm" action="index.php" method="post">
+	 	<input type="hidden" name="report_date" id="report_date" value="<?php echo date('Y-m-d'); ?>">
+	 	<input type="hidden" name="report_equipment" id="report_equipment" value="all">
+	 	<input type="submit" name="s" value="" style="display:none" >
+	 </form>
 </div>
 <?php
 	include(TEMPLATEDIR."/footer.php");
